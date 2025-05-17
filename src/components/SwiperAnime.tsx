@@ -57,7 +57,7 @@ const SwiperAnime = () => {
                 <div className="flex gap-4 p-2 w-full h-full">
                   <div className="fixed flex flex-col gap-2 w-full h-full top-[25%]">
                     <h2 className="text-xl w-full font-[500] two-line">
-                      {anime.title}
+                      {anime.title}s
                     </h2>
                     <h3 className="flex gap-2 items-center">
                       <svg
