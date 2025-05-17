@@ -40,23 +40,8 @@ jobs:
           distribution: 'temurin'
           java-version: '17' # Phiên bản JDK yêu cầu bởi Tauri
 
-      - name: Install Android SDK
+      - name: Setup Android SDK
         uses: android-actions/setup-android@v3
-        with:
-          sdk-version: '33' # Hoặc phiên bản SDK bạn cần
-          ndk-version: '25.2.8563309' # Phiên bản NDK. Hãy chắc chắn rằng phiên bản này tương thích với Tauri
-          # Các components cần thiết. platforms;android-33 tương ứng với sdk-version 33
-          with-command-line-tools: 'latest'
-          cache-path: ${{ github.workspace }}/.android
-
-      - name: Set up environment variables
-        run: |
-          echo "ANDROID_HOME=$HOME/android/sdk" >> $GITHUB_ENV
-          echo "JAVA_HOME=$(/usr/libexec/java_home -v 17)" >> $GITHUB_ENV # Đặt JAVA_HOME
-          echo "$ANDROID_HOME/platform-tools:$ANDROID_HOME/tools:$ANDROID_HOME/tools/bin:$ANDROID_HOME/build-tools/33.0.2" >> $GITHUB_PATH # Thay đổi 33.0.2 nếu bạn dùng phiên bản build-tools khác
-          echo "CARGO_TARGET_AARCH64_LINUX_ANDROID_LINKER=aarch64-linux-android-clang" >> $GITHUB_ENV
-          echo "CARGO_TARGET_ARMV7_LINUX_ANDROIDEABI_LINKER=armv7-linux-androideabi-clang" >> $GITHUB_ENV
-
       - name: Change wrapper permissions
         run: chmod +x ./src-tauri
 
