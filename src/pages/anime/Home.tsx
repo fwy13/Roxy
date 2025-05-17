@@ -1,5 +1,4 @@
-import { useContext, useEffect } from "react";
-import { NavigatorContext } from "../../contexts/NavigatorContext";
+import { useEffect } from "react";
 import SwiperAnime from "../../components/SwiperAnime";
 import Home_Service from "../../services/Anime/Home_Service";
 

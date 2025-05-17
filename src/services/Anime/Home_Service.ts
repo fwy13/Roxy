@@ -50,7 +50,7 @@ const Home_Service = async () => {
       const quality = $(".Info", el).find(".Qlty").text();
       $(".Description", el)
         .find("a")
-        .each((i, el2) => {
+        .each((_i, el2) => {
           genres.push({
             url: ($(el2).attr("href") ?? "").split("/")[4],
             name: $(el2).text(),
