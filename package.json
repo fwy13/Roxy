@@ -1,0 +1,34 @@
+{
+  "name": "roxy",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "tauri": "tauri",
+    "build:android": "tauri build android"
+  },
+  "dependencies": {
+    "@tailwindcss/vite": "^4.1.7",
+    "@tauri-apps/api": "^2",
+    "@tauri-apps/plugin-http": "~2.4.3",
+    "@tauri-apps/plugin-opener": "^2",
+    "cheerio": "^1.0.0",
+    "lucide-react": "^0.511.0",
+    "motion": "^12.12.1",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-router-dom": "^7.6.0",
+    "swiper": "^11.2.6",
+    "tailwindcss": "^4.1.7"
+  },
+  "devDependencies": {
+    "@tauri-apps/cli": "^2",
+    "@types/react": "^18.3.1",
+    "@types/react-dom": "^18.3.1",
+    "@vitejs/plugin-react": "^4.3.4",
+    "typescript": "~5.6.2",
+    "vite": "^6.0.3"
+  }
+}
