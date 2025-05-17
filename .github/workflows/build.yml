@@ -58,7 +58,7 @@ jobs:
           echo "CARGO_TARGET_ARMV7_LINUX_ANDROIDEABI_LINKER=armv7-linux-androideabi-clang" >> $GITHUB_ENV
 
       - name: Change wrapper permissions
-        run: chmod +x ./src-tauri/tauri
+        run: chmod +x ./src-tauri
 
       - name: Install app dependencies
         run: npm install
