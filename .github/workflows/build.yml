@@ -3,70 +3,32 @@ name: Build và ký Android APK
 on:
   push:
     branches:
-      - main # Thay đổi nếu bạn muốn trigger workflow trên một branch khác
-  pull_request:
-    branches:
-      - main
-
+      - main 
 jobs:
   build:
-    runs-on: ubuntu-latest # Có thể dùng các runner khác như macos-latest hoặc windows-latest nếu cần
+    runs-on: ubuntu-latest 
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-        with:
-          submodules: true # Cần thiết nếu bạn có các submodule trong dự án
+      - name: Checkout repository
+        uses: actions/checkout@v2
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
+      - name: Install Java
+        uses: actions/setup-java@v3
         with:
-          node-version: '18' # Hoặc phiên bản Node.js bạn dùng
+          java-version: 17
+          distribution: adopt
+          cache: gradle
 
-      - name: Install Rust
-        uses: dtolnay/rust-toolchain@stable
-        with:
-          toolchain: stable
-          target: aarch64-linux-android, armv7-linux-androideabi # Thêm các target Android cần thiết
-
-      - name: Install Rust dependencies
+      - name: Validate Gradle wrapper
+        uses: gradle/wrapper-validation-action@v1
+      - name: Build application
         run: |
-          sudo apt-get update
-          sudo apt-get install -y libx11-dev libx11-xcb-dev libxcb-keysyms1-dev libdbus-1-dev
-
-      - name: Install JDK
-        uses: actions/setup-java@v4
-        with:
-          distribution: 'temurin'
-          java-version: '17' # Phiên bản JDK yêu cầu bởi Tauri
-
-      - name: Setup Android SDK
-        uses: android-actions/setup-android@v3
-      - name: Change wrapper permissions
-        run: chmod +x ./src-tauri
-
-      - name: Install app dependencies
-        run: npm install
-
-      - name: Build app
-        run: |
-          npm run tauri android build
-
-      - name: Sign APK
-        if: success() # Chỉ thực hiện nếu build thành công
-        uses: r0adkll/sign-android-release@v1 # Sử dụng action để ký APK
-        with:
-          releaseDirectory: ./src-tauri/gen/android/app/build/outputs/apk/universal/release/
-          signingKeyBase64: ${{ secrets.SIGNING_KEY_BASE64 }} # Base64 encoded keystore
-          alias: ${{ secrets.KEY_ALIAS }} # Alias của key trong keystore
-          keyStorePassword: ${{ secrets.KEYSTORE_PASSWORD }} # Mật khẩu của keystore
-          keyPassword: ${{ secrets.KEY_PASSWORD }} # Mật khẩu của key (có thể giống keystore password)
-          buildType: 'universal' # Build universal APK
-
-      - name: Upload Signed APK
-        if: success() # Chỉ upload nếu ký thành công
+             cd src-tauri/gen/android
+             chmod +x ./gradlew
+             ./gradlew assembleRelease
+      - name: Upload application
         uses: actions/upload-artifact@v4
         with:
-          name: android-apk
-          path: ./src-tauri/gen/android/app/build/outputs/apk/universal/release/*.apk # Đường dẫn đến APK đã ký
-          retention-days: 5 # Giữ artifact trong 5 ngày
+          name: app
+          path: ./src-tauri/gen/android/app/build/outputs/apk/universal/release/*.apk
+          retention-days: 3
